@@ -6,14 +6,14 @@ use strict;
 use GD;
 use AI::FANN qw(:all);
 
-my $num = 500;
-my $size = 32;
+my $num = 2000;
+my $size = 12;
 
 $| = 1;
 
 sub draw_o {
     my ($im, $color) = @_;
-    my $r = int rand(0.45 * $size);
+    my $r = int (0.2 + rand(0.25 * $size));
     my $x0 = $r + int rand($size - 2 * $r);
     my $y0 = $r + int rand($size - 2 * $r);
     $im->arc($x0, $y0, $r, $r, 0, 360, $color);
@@ -22,7 +22,7 @@ sub draw_o {
 
 sub draw_x {
     my ($im, $color) = @_;
-    my $r = int rand(0.45 * $size);
+    my $r = int (0.2 + rand(0.25 * $size));
     my $x0 = $r + int rand($size - 2 * $r);
     my $y0 = $r + int rand($size - 2 * $r);
     $im->line($x0-$r, $y0-$r, $x0+$r, $y0+$r, $color);
@@ -54,10 +54,12 @@ sub make_train {
     }
     print "\n";
     my $ann = AI::FANN->new_standard(@_);
-    $ann->train_on_data($train, 400, 1, 0.0001);
-    # $ann->print_connections;
-    $ann->print_parameters;
-    $ann->save("ox.ann");
+    for (1..10) {
+        $ann->train_on_data($train, 400, 1, 0.0001);
+        # $ann->print_connections;
+        $ann->print_parameters;
+        $ann->save("ox.ann");
+    }
 }
 
 sub make_test {
@@ -76,7 +78,7 @@ sub make_test {
 }
 
 if ($ARGV[0] eq 'train') {
-    make_train($size * $size, $size * $size, 120, 40, 2);
+    make_train($size * $size, 4 * $size * $size, 240, 60, 20, 2);
 }
 elsif ($ARGV[0] eq 'test') {
     make_test($ARGV[1] || 10);

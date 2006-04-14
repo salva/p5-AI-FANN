@@ -1,6 +1,6 @@
 package AI::FANN;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use strict;
 use warnings;
@@ -41,7 +41,7 @@ __END__
 
 =head1 NAME
 
-AI::FANN - Fast Artificial Neural Network library Perl wrapper
+AI::FANN - Perl wrapper for the Fast Artificial Neural Network library
 
 =head1 SYNOPSIS
 
@@ -83,14 +83,26 @@ Run...
 
 
   WARNING:  THIS IS A VERY EARLY RELEASE,
-            SERIOUS BUGS ARE EXPECTED!!!
-
+            MAY CONTAIN CRITICAL BUGS!!!
 
 AI::FANN is a Perl wrapper for the Fast Artificial Neural Network
-(FANN) Library available from L<http://fann.sourceforge.net>.
+(FANN) Library available from L<http://fann.sourceforge.net>:
 
-An object oriented interface provides a direct map to the C functions
-but with some changes to make it more perlish:
+  Fast Artificial Neural Network Library is a free open source neural
+  network library, which implements multilayer artificial neural
+  networks in C with support for both fully connected and sparsely
+  connected networks. Cross-platform execution in both fixed and
+  floating point are supported. It includes a framework for easy
+  handling of training data sets. It is easy to use, versatile, well
+  documented, and fast. PHP, C++, .NET, Python, Delphi, Octave, Ruby,
+  Pure Data and Mathematica bindings are available. A reference manual
+  accompanies the library with examples and recommendations on how to
+  use the library. A graphical user interface is also available for
+  the library.
+
+An object oriented interface provides an almost direct map to the C
+library API. Some differences have been introduced to make it more
+perlish:
 
 =over 4
 
@@ -103,20 +115,24 @@ and C<AI::FANN::TrainData> that wraps C<struct fann_train_data>.
 
 Prefixes and common parts on the C function names referring to those
 structures have been removed. For instance C
-C<fann_train_data_shuffle> becomes C<AI::FANN::TrainData::shuffle>.
+C<fann_train_data_shuffle> becomes C<AI::FANN::TrainData::shuffle>. It
+will be usually called as...
+
+  $train_data->shuffle;
 
 =item *
 
-Pairs of C get/set functions are wrapped in Perl with dual
-accessor methods. For instance:
+Pairs of C get/set functions are wrapped in Perl with dual accessor
+methods named as the attribute (and without any C<set_>/C<get_>
+prefix). For instance:
 
   $ann->bit_fail_limit($limit); # sets the bit_fail_limit
 
   $bfl = $ann->bit_fail_limit;  # gets the bit_fail_limit
 
 
-Indexed pairs of get/set functors are also wrapped inside dual
-accessors:
+Pairs of get/set functions requiring additional indexing arguments are
+also wrapped inside dual accessors:
 
   # sets:
   $ann->neuron_activation_function($layer, $neuron, $actfunc);
@@ -124,11 +140,14 @@ accessors:
   # gets:
   $af = $ann->neuron_activation_function($layer, $neuron);
 
-Note that on the Perl version, the optional value argument is moved to
-the last position (on the C version it is usually the second
-argument).
+Important: note that on the Perl version, the optional value argument
+is moved to the last position (on the C version of the set method it
+is usually the second argument).
 
-Some functions have been renamed to make the naming more consistent:
+=item *
+
+Some functions have been renamed to make the naming more consistent
+and to follow Perl conventions:
 
   C                                      Perl
   -----------------------------------------------------------
@@ -147,7 +166,9 @@ Boolean methods return true on success and undef on failure.
 
 =item *
 
-Any error reported from the C side is converter to a Perl exception.
+Any error reported from the C side is automaticaly converter to a Perl
+exception. No manual error checking is required after calling FANN
+functions.
 
 =item *
 
@@ -155,7 +176,8 @@ Memory management is automatic, no need to call destroy methods.
 
 =item *
 
-Doubles are used for computations.
+Doubles are used for computations (using floats or fixed
+point types is not supported).
 
 =back
 
@@ -172,13 +194,46 @@ All the constants defined in the C documentation are exported from the module:
 The values returned from this constant subs yield the integer value on
 numerical context and the constant name when used as strings.
 
+The constants available are:
+
+  # enum fann_train_enum:
+  FANN_TRAIN_INCREMENTAL
+  FANN_TRAIN_BATCH
+  FANN_TRAIN_RPROP
+  FANN_TRAIN_QUICKPROP
+
+  # enum fann_activationfunc_enum:
+  FANN_LINEAR
+  FANN_THRESHOLD
+  FANN_THRESHOLD_SYMMETRIC
+  FANN_SIGMOID
+  FANN_SIGMOID_STEPWISE
+  FANN_SIGMOID_SYMMETRIC
+  FANN_SIGMOID_SYMMETRIC_STEPWISE
+  FANN_GAUSSIAN
+  FANN_GAUSSIAN_SYMMETRIC
+  FANN_GAUSSIAN_STEPWISE
+  FANN_ELLIOT
+  FANN_ELLIOT_SYMMETRIC
+  FANN_LINEAR_PIECE
+  FANN_LINEAR_PIECE_SYMMETRIC
+
+  # enum fann_errorfunc_enum:
+  FANN_ERRORFUNC_LINEAR
+  FANN_ERRORFUNC_TANH
+
+  # enum fann_stopfunc_enum:
+  FANN_STOPFUNC_MSE
+  FANN_STOPFUNC_BIT
+
 =head1 CLASSES
 
 The classes defined by this package are:
 
 =head2 AI::FANN
 
-Wraps C C<struct fann> types and provides the following methods:
+Wraps C C<struct fann> types and provides the following methods
+(consult the C documentation for a full description of their usage):
 
 =over 4
 
@@ -538,16 +593,20 @@ values on these arrays.
 
 -
 
-
 =back
+
+=head1 BUGS
+
+Only tested on Linux.
+
+I/O is not performed through PerlIO because the C library doesn't have
+the required infrastructure to do that.
+
+Send bug reports to my email address or use the CPAN RT system.
 
 =head1 SEE ALSO
 
 FANN homepage at L<http://leenissen.dk/fann/index.php>.
-
-=head1 BUGS
-
-Send bug reports to my email address or use the CPAN RT system.
 
 =head1 COPYRIGHT AND LICENSE
 
