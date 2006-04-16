@@ -1,3 +1,4 @@
+/* -*- Mode: C -*- */
 
 #define PERL_NO_GET_CONTEXT 1
 

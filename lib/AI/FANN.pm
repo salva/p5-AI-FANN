@@ -1,6 +1,6 @@
 package AI::FANN;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 use strict;
 use warnings;
@@ -100,9 +100,9 @@ AI::FANN is a Perl wrapper for the Fast Artificial Neural Network
   use the library. A graphical user interface is also available for
   the library.
 
-An object oriented interface provides an almost direct map to the C
-library API. Some differences have been introduced to make it more
-perlish:
+AI::FANN object oriented interface provides an almost direct map to
+the C library API. Some differences have been introduced to make it
+more perlish:
 
 =over 4
 
@@ -115,7 +115,7 @@ and C<AI::FANN::TrainData> that wraps C<struct fann_train_data>.
 
 Prefixes and common parts on the C function names referring to those
 structures have been removed. For instance C
-C<fann_train_data_shuffle> becomes C<AI::FANN::TrainData::shuffle>. It
+C<fann_train_data_shuffle> becomes C<AI::FANN::TrainData::shuffle> that
 will be usually called as...
 
   $train_data->shuffle;
@@ -135,14 +135,14 @@ Pairs of get/set functions requiring additional indexing arguments are
 also wrapped inside dual accessors:
 
   # sets:
-  $ann->neuron_activation_function($layer, $neuron, $actfunc);
+  $ann->neuron_activation_function($layer_ix, $neuron_ix, $actfunc);
 
   # gets:
-  $af = $ann->neuron_activation_function($layer, $neuron);
+  $af = $ann->neuron_activation_function($layer_ix, $neuron_ix);
 
 Important: note that on the Perl version, the optional value argument
-is moved to the last position (on the C version of the set method it
-is usually the second argument).
+is moved to the last position (on the C version of the C<set_> method
+it is usually the second argument).
 
 =item *
 
@@ -237,19 +237,19 @@ Wraps C C<struct fann> types and provides the following methods
 
 =over 4
 
-=item FANN::AI->new_standard(@layer_sizes)
+=item AI::FANN->new_standard(@layer_sizes)
 
 -
 
-=item FANN::AI->new_sparse($connection_rate, @layer_sizes)
+=item AI::FANN->new_sparse($connection_rate, @layer_sizes)
 
 -
 
-=item FANN::AI->new_shortcut(@layer_sizes)
+=item AI::FANN->new_shortcut(@layer_sizes)
 
 -
 
-=item FANN::AI->new_from_file($filename)
+=item AI::FANN->new_from_file($filename)
 
 -
 
@@ -538,6 +538,8 @@ Wraps C C<struct fann_train_data> and provides the following method:
 
 =item AI::FANN::TrainData->new_from_file($filename)
 
+-
+
 =item AI::FANN::TrainData->new($input1, $output1 [, $input2, $output2, ...])
 
 C<$inputx> and C<$outputx> are arrays with the values of the input and
@@ -546,8 +548,9 @@ output layers.
 =item AI::FANN::TrainData->new_empty($num_data, $num_inputs, $num_outputs)
 
 returns a new AI::FANN::TrainData object of the sizes indicated on the
-arguments. The values of the data contained inside the object are
-random and should be set before using it for training a ANN.
+arguments. The initial values of the data contained inside the object
+are random and should be set before using the train data object for
+training an ANN.
 
 =item $train->data($index)
 
