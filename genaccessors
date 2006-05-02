@@ -6,43 +6,37 @@ use warnings;
 $| = 1;
 
 my %struct = ( 'AI::FANN' => 'struct fann *',
-			   'AI::FANN::TrainData' => 'struct fann_train_data *' );
+               'AI::FANN::TrainData' => 'struct fann_train_data *' );
 
 my %converter = ( float => 'SvNV',
-				  double => 'SvNV',
-				  fann_type => 'SvNV',
-				  'unsigned int' => 'SvUV',
-				  'enum fann_train_enum' => '_sv2fann_train_enum',
-				  'enum fann_activationfunc_enum' => '_sv2fann_activationfunc_enum',
-				  'enum fann_errorfunc_enum' => '_sv2fann_errorfunc_enum',
-				  'enum fann_stopfunc_enum' => '_sv2fann_stopfunc_enum');
+                  double => 'SvNV',
+                  fann_type => 'SvNV',
+                  'unsigned int' => 'SvUV',
+                  'enum fann_train_enum' => '_sv2fann_train_enum',
+                  'enum fann_activationfunc_enum' => '_sv2fann_activationfunc_enum',
+                  'enum fann_errorfunc_enum' => '_sv2fann_errorfunc_enum',
+                  'enum fann_stopfunc_enum' => '_sv2fann_stopfunc_enum');
 
 my %top = ();   # FANN library already does the checking for most things
 
 sub accessor {
-	my ($name, $type, $getter, $setter, @ixs) = @_;
+    my ($name, $type, $getter, $setter, @ixs) = @_;
 	
-	my ($package, $method) = $name =~ /^(?:(.*)::)?(.*)$/
-		or die "wrong accessor name $name";
+    my ($package, $method) = $name =~ /^(?:(.*)::)?(.*)$/
+        or die "wrong accessor name $name";
 
-	$package = $package ? "AI::FANN::$package" : 'AI::FANN';
-	my $struct = $struct{$package}
-		or die "wrong package name $package";
+    $package = $package ? "AI::FANN::$package" : 'AI::FANN';
+    my $struct = $struct{$package}
+        or die "wrong package name $package";
 
     push @ixs, 'value' unless grep /^value$/, @ixs;
     my @ixs1 =  grep !/^value$/, @ixs;
 
+    my $nixs = @ixs;
+
     my $types = join("\n    ", "$struct self;", map "unsigned int $_;", @ixs1);
     my $args = join(', ', 'self', @ixs1);
     my $setargs = join(', ', 'self', @ixs);
-
-    my $constraints = join('',
-                           map {
-                               <<EOC
-        if ($_ >= ($top{$_}))
-            Perl_croak(aTHX_ "$_ value %d is out of range", $_);
-EOC
-                           } grep($top{$_}, @ixs1));
 
     if ($getter) {
         if ($getter =~ /^->/) {
@@ -57,48 +51,41 @@ EOC
     if ($setter) {
 		
         $converter = $converter{$type}
-			or die "wrong type $type";
+            or die "wrong type $type";
 
-		if ($setter =~ /^->/) {
-			$setter = "self->$setter = value"
-		}
-		else {
-			$setter = "$setter($setargs)"
-		}
+        if ($setter =~ /^->/) {
+            $setter = "self->$setter = value"
+        }
+        else {
+            $setter = "$setter($setargs)"
+        }
     }
 
 
-	print <<HEAD;
+    print <<HEAD;
 
 MODULE = AI::FANN    PACKAGE = $package    PREFIX = accessor_
 HEAD
 
-	if ($setter and $getter) {
-		print <<EOA
+    if ($setter and $getter) {
+        print <<EOA
 
 $type
-accessor_$method($args, ...)
+accessor_$method($args, value = NO_INIT)
     $types
+    $type value
   CODE:
-    switch (items) {
-        case 2:
-            {
-                $type value = ($type)$converter(ST(1));
-                $setter;
-            }
-        case 1:
-            RETVAL = $getter;
-            break;
-        default:
-            Perl_croak(aTHX_ "Usage: ${package}::$method(self [,value])");
-	}
+    if (items > $nixs) {
+        $setter;
+    }
+    RETVAL = $getter;
   OUTPUT:
     RETVAL
 EOA
 
-	}
-	elsif ($getter) {
-		print <<EOA;
+    }
+    elsif ($getter) {
+        print <<EOA;
 
 $type
 accessor_$method($args)
@@ -109,7 +96,7 @@ accessor_$method($args)
     RETVAL
 EOA
 
-	}
+    }
     elsif ($setter) {
         print <<EOA;
 void

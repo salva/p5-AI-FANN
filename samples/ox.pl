@@ -6,8 +6,8 @@ use strict;
 use GD;
 use AI::FANN qw(:all);
 
-my $num = 2000;
-my $size = 12;
+my $num = 500;
+my $size = 16;
 
 $| = 1;
 
@@ -54,8 +54,8 @@ sub make_train {
     }
     print "\n";
     my $ann = AI::FANN->new_standard(@_);
-    for (1..10) {
-        $ann->train_on_data($train, 400, 1, 0.0001);
+    for (1..40) {
+        $ann->train_on_data($train, 100, 1, 0.0001);
         # $ann->print_connections;
         $ann->print_parameters;
         $ann->save("ox.ann");
@@ -78,7 +78,7 @@ sub make_test {
 }
 
 if ($ARGV[0] eq 'train') {
-    make_train($size * $size, 4 * $size * $size, 240, 60, 20, 2);
+    make_train($size * $size, 4 * $size * $size, 240, 200, 60, 20, 2);
 }
 elsif ($ARGV[0] eq 'test') {
     make_test($ARGV[1] || 10);
