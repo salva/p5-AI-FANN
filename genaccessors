@@ -8,17 +8,6 @@ $| = 1;
 my %struct = ( 'AI::FANN' => 'struct fann *',
                'AI::FANN::TrainData' => 'struct fann_train_data *' );
 
-my %converter = ( float => 'SvNV',
-                  double => 'SvNV',
-                  fann_type => 'SvNV',
-                  'unsigned int' => 'SvUV',
-                  'enum fann_train_enum' => '_sv2fann_train_enum',
-                  'enum fann_activationfunc_enum' => '_sv2fann_activationfunc_enum',
-                  'enum fann_errorfunc_enum' => '_sv2fann_errorfunc_enum',
-                  'enum fann_stopfunc_enum' => '_sv2fann_stopfunc_enum');
-
-my %top = ();   # FANN library already does the checking for most things
-
 sub accessor {
     my ($name, $type, $getter, $setter, @ixs) = @_;
 	
@@ -47,12 +36,7 @@ sub accessor {
         }
     }
 
-    my $converter;
     if ($setter) {
-		
-        $converter = $converter{$type}
-            or die "wrong type $type";
-
         if ($setter =~ /^->/) {
             $setter = "self->$setter = value"
         }
