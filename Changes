@@ -1,16 +1,23 @@
 Revision history for Perl extension AI::FANN.
 
-0.04  May 1 2006
+0.06 Sep 18 2006
+    - add support for FANN_LIB and FANN_INCLUDE to MAkefile.PL
+
+0.05 May 4 2006
+    - ppport.h regenerated with latest version of Devel::PPPort to
+      make it work on perls older than 5.8.8 (bug reported by bodyn).
+
+0.04 May 1 2006
     - corrected bug on accessor generators with indexes
     - better accessor generation using default arguments XS feature
 
-0.03  Apr 14 2006
+0.03 Apr 14 2006
     - improved docs.
 
-0.02  Apr 14 2006
+0.02 Apr 14 2006
     - improved docs.
 
-0.01  Fri Apr  7 15:11:48 2006
-	- original version; created by h2xs 1.23 with options
-		-An AI::FANN /usr/local/include/fann.h
+0.01 Fri Apr  7 15:11:48 2006
+    - original version; created by h2xs 1.23 with options
+        -An AI::FANN /usr/local/include/fann.h
 

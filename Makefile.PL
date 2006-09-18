@@ -1,14 +1,32 @@
 
 use ExtUtils::MakeMaker;
 
+my $fann_lib="";
+my $fan_inc="";
+
+@ARGV = map {
+    if (/^FANN_LIB=(.*)/) {
+        $fann_lib = "-L$1 ";
+        ()
+    }
+    elsif (/^FANN_INCLUDE=(.*)/) {
+        $fann_inc = "-I$1 ";
+        ()
+    }
+    else {
+        $_
+    }
+} @ARGV;
+
+
 WriteMakefile( NAME => 'AI::FANN',
                VERSION_FROM => 'lib/AI/FANN.pm',
                PREREQ_PM => {},
                ABSTRACT_FROM => 'lib/AI/FANN.pm',
                AUTHOR => 'Salvador Fandiño <sfandino@yahoo.com>',
-               LIBS => ['-ldoublefann'],
+               LIBS => ["${fann_lib}-ldoublefann"],
                DEFINE => '',
-               INC => '-I.',
+               INC => "${fann_inc}-I.",
                OBJECT => '$(BASEEXT)$(OBJ_EXT) morefann$(OBJ_EXT)',
                #OPTIMIZE => '-g -O0',
                depend => { '$(BASEEXT).c' => 'constants.h accessors.xsh' }
@@ -26,3 +44,4 @@ accessors.xsh: genaccessors
 MAKE_FRAG
 
 }
+

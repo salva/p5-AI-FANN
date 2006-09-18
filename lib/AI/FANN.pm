@@ -1,6 +1,6 @@
 package AI::FANN;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 use strict;
 use warnings;
@@ -597,6 +597,10 @@ values on these arrays.
 -
 
 =back
+
+=head1 INSTALLATION
+
+See the README file for instruction on installing this module.
 
 =head1 BUGS
 
