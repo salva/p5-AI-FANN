@@ -44,6 +44,7 @@ fann_train_data_set(struct fann_train_data *data, unsigned int ix,
 	}
 }
 
+/*
 enum fann_activationfunc_enum
 fann_get_activation_function(struct fann *ann, unsigned int layer, int neuron_index) {
     struct fann_neuron *neuron = fann_get_neuron(ann, layer, neuron_index);
@@ -52,7 +53,9 @@ fann_get_activation_function(struct fann *ann, unsigned int layer, int neuron_in
     }
     return 0;
 }
+*/
 
+/*
 fann_type
 fann_get_activation_steepness(struct fann *ann, unsigned int layer, int neuron_index) {
     struct fann_neuron *neuron = fann_get_neuron(ann, layer, neuron_index);
@@ -61,11 +64,14 @@ fann_get_activation_steepness(struct fann *ann, unsigned int layer, int neuron_i
     }
     return 0;
 }
+*/
 
+/*
 unsigned int
 fann_get_num_layers(struct fann *ann) {
     return ann->last_layer - ann->first_layer;
 }
+*/
 
 unsigned int
 fann_get_num_neurons(struct fann *ann, unsigned int layer_index) {

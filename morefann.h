@@ -19,12 +19,15 @@ fann_get_neuron_layer(struct fann *ann, struct fann_layer* layer, int neuron);
 struct fann_neuron*
 fann_get_neuron(struct fann *ann, unsigned int layer, int neuron);
 
-
+/*
 enum fann_activationfunc_enum
 fann_get_activation_function(struct fann *ann, unsigned int layer, int neuron);
+*/
 
+/*
 unsigned int
 fann_get_num_layers(struct fann *ann);
+*/
 
 unsigned int
 fann_get_num_neurons(struct fann *ann, unsigned int layer_index);

@@ -257,6 +257,19 @@ accessor_total_connections(self)
 
 MODULE = AI::FANN    PACKAGE = AI::FANN    PREFIX = accessor_
 
+float
+accessor_connection_rate(self)
+	struct fann * self;
+  CODE:
+    RETVAL = fann_get_connection_rate(self);
+  OUTPUT:
+    RETVAL
+  CLEANUP:
+    _check_error(aTHX_ (struct fann_error *)self);
+
+
+MODULE = AI::FANN    PACKAGE = AI::FANN    PREFIX = accessor_
+
 unsigned int
 accessor_MSE(self)
 	struct fann * self;

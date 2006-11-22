@@ -131,6 +131,7 @@ num_inputs, unsigned int, fann_get_num_input
 num_outputs, unsigned int, fann_get_num_output
 total_neurons, unsigned int, fann_get_total_neurons
 total_connections, unsigned int, fann_get_total_connections
+connection_rate, float, fann_get_connection_rate
 MSE, unsigned int, fann_get_MSE
 bit_fail, unsigned int, fann_get_bit_fail
 cascade_output_change_fraction, float, fann_get_cascade_output_change_fraction, fann_set_cascade_output_change_fraction

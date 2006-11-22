@@ -6,8 +6,8 @@ This module provides a Perl wrapper for the FANN library
 
 DEPENDENCIES
 
-This module requires the FANN library version 2.0.0 or later compiled
-to use doubles internally.
+This module requires the FANN library version 2.1.0beta or later
+compiled to use doubles internally.
 
 The module Test::More is also required for testing.
 
@@ -21,13 +21,13 @@ To install this module type the following:
    make test
    make install
 
-You may need to add extra parameters to the Makefile.PL script to
+You may need to add two extra parameters to the Makefile.PL script to
 indicate where to find the FANN library and include files if they are
-not installed on some standard locations (i.e. /usr/lib or
-/usr/local/lib).
+not installed on some standard locations. For instance:
 
-Read ExtUtils::MakeMaker documentation for intructions about how to do
-it.
+   perl Makefile.PL                            \
+       FANN_LIB=/usr/local/fann/lib            \
+       FANN_INCLUDE=/usr/local/fann/include
 
 
 COPYRIGHT AND LICENCE

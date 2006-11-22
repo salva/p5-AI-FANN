@@ -1,5 +1,8 @@
 Revision history for Perl extension AI::FANN.
 
+0.07 Nov 22 2006
+    - move to FANN 2.1
+
 0.06 Sep 18 2006
     - add support for FANN_LIB and FANN_INCLUDE to MAkefile.PL
 
