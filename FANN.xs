@@ -211,7 +211,7 @@ fann_new_standard(klass, ...)
 struct fann *
 fann_new_sparse(klass, connection_rate, ...)
     SV *klass;
-    float connection_rate;
+    double connection_rate;
   PREINIT:
     unsigned int *layers;
     unsigned int i;
@@ -321,7 +321,7 @@ fann_train_on_file(self, filename, max_epochs, epochs_between_reports, desired_e
     const char *filename;
     unsigned int max_epochs;
     unsigned int epochs_between_reports;
-    float desired_error;
+    double desired_error;
   CLEANUP:
     _check_error(aTHX_ (struct fann_error *)self);
 
@@ -331,7 +331,7 @@ fann_train_on_data(self, data, max_epochs, epochs_between_reports, desired_error
     struct fann_train_data *data;
     unsigned int max_epochs;
     unsigned int epochs_between_reports;
-    float desired_error;
+    double desired_error;
   CLEANUP:
     _check_error(aTHX_ (struct fann_error *)self);
     _check_error(aTHX_ (struct fann_error *)data);
@@ -342,7 +342,7 @@ fann_cascadetrain_on_file(self, filename, max_neurons, neurons_between_reports, 
 	const char *filename;
     unsigned int max_neurons;
     unsigned int neurons_between_reports;
-    float desired_error;
+    double desired_error;
   CLEANUP:
     _check_error(aTHX_ (struct fann_error *)self);
 
@@ -352,12 +352,12 @@ fann_cascadetrain_on_data(self, data, max_neurons, neurons_between_reports, desi
     struct fann_train_data *data;
     unsigned int max_neurons;
     unsigned int neurons_between_reports;
-    float desired_error;
+    double desired_error;
   CLEANUP:
     _check_error(aTHX_ (struct fann_error *)self);
     _check_error(aTHX_ (struct fann_error *)data);
 
-float
+double
 fann_train_epoch(self, data)
     struct fann *self;
     struct fann_train_data *data;

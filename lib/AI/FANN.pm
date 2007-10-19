@@ -1,6 +1,6 @@
 package AI::FANN;
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 use strict;
 use warnings;
@@ -217,6 +217,10 @@ The constants available are:
   FANN_ELLIOT_SYMMETRIC
   FANN_LINEAR_PIECE
   FANN_LINEAR_PIECE_SYMMETRIC
+  FANN_SIN_SYMMETRIC
+  FANN_COS_SYMMETRIC
+  FANN_SIN
+  FANN_COS
 
   # enum fann_errorfunc_enum:
   FANN_ERRORFUNC_LINEAR

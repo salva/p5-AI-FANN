@@ -52,10 +52,10 @@ accessor_train_stop_function(self, value = NO_INIT)
 
 MODULE = AI::FANN    PACKAGE = AI::FANN    PREFIX = accessor_
 
-float
+double
 accessor_learning_rate(self, value = NO_INIT)
     struct fann * self;
-    float value
+    double value
   CODE:
     if (items > 1) {
         fann_set_learning_rate(self, value);
@@ -69,10 +69,10 @@ accessor_learning_rate(self, value = NO_INIT)
 
 MODULE = AI::FANN    PACKAGE = AI::FANN    PREFIX = accessor_
 
-float
+double
 accessor_learning_momentum(self, value = NO_INIT)
     struct fann * self;
-    float value
+    double value
   CODE:
     if (items > 1) {
         fann_set_learning_momentum(self, value);
@@ -103,10 +103,10 @@ accessor_bit_fail_limit(self, value = NO_INIT)
 
 MODULE = AI::FANN    PACKAGE = AI::FANN    PREFIX = accessor_
 
-float
+double
 accessor_quickprop_decay(self, value = NO_INIT)
     struct fann * self;
-    float value
+    double value
   CODE:
     if (items > 1) {
         fann_set_quickprop_decay(self, value);
@@ -120,10 +120,10 @@ accessor_quickprop_decay(self, value = NO_INIT)
 
 MODULE = AI::FANN    PACKAGE = AI::FANN    PREFIX = accessor_
 
-float
+double
 accessor_quickprop_mu(self, value = NO_INIT)
     struct fann * self;
-    float value
+    double value
   CODE:
     if (items > 1) {
         fann_set_quickprop_mu(self, value);
@@ -137,10 +137,10 @@ accessor_quickprop_mu(self, value = NO_INIT)
 
 MODULE = AI::FANN    PACKAGE = AI::FANN    PREFIX = accessor_
 
-float
+double
 accessor_rprop_increase_factor(self, value = NO_INIT)
     struct fann * self;
-    float value
+    double value
   CODE:
     if (items > 1) {
         fann_set_rprop_increase_factor(self, value);
@@ -154,10 +154,10 @@ accessor_rprop_increase_factor(self, value = NO_INIT)
 
 MODULE = AI::FANN    PACKAGE = AI::FANN    PREFIX = accessor_
 
-float
+double
 accessor_rprop_decrease_factor(self, value = NO_INIT)
     struct fann * self;
-    float value
+    double value
   CODE:
     if (items > 1) {
         fann_set_rprop_decrease_factor(self, value);
@@ -171,10 +171,10 @@ accessor_rprop_decrease_factor(self, value = NO_INIT)
 
 MODULE = AI::FANN    PACKAGE = AI::FANN    PREFIX = accessor_
 
-float
+double
 accessor_rprop_delta_min(self, value = NO_INIT)
     struct fann * self;
-    float value
+    double value
   CODE:
     if (items > 1) {
         fann_set_rprop_delta_min(self, value);
@@ -188,10 +188,10 @@ accessor_rprop_delta_min(self, value = NO_INIT)
 
 MODULE = AI::FANN    PACKAGE = AI::FANN    PREFIX = accessor_
 
-float
+double
 accessor_rprop_delta_max(self, value = NO_INIT)
     struct fann * self;
-    float value
+    double value
   CODE:
     if (items > 1) {
         fann_set_rprop_delta_max(self, value);
@@ -257,7 +257,7 @@ accessor_total_connections(self)
 
 MODULE = AI::FANN    PACKAGE = AI::FANN    PREFIX = accessor_
 
-float
+double
 accessor_connection_rate(self)
 	struct fann * self;
   CODE:
@@ -270,7 +270,7 @@ accessor_connection_rate(self)
 
 MODULE = AI::FANN    PACKAGE = AI::FANN    PREFIX = accessor_
 
-unsigned int
+double
 accessor_MSE(self)
 	struct fann * self;
   CODE:
@@ -296,10 +296,10 @@ accessor_bit_fail(self)
 
 MODULE = AI::FANN    PACKAGE = AI::FANN    PREFIX = accessor_
 
-float
+double
 accessor_cascade_output_change_fraction(self, value = NO_INIT)
     struct fann * self;
-    float value
+    double value
   CODE:
     if (items > 1) {
         fann_set_cascade_output_change_fraction(self, value);
@@ -313,10 +313,10 @@ accessor_cascade_output_change_fraction(self, value = NO_INIT)
 
 MODULE = AI::FANN    PACKAGE = AI::FANN    PREFIX = accessor_
 
-float
+double
 accessor_cascade_output_stagnation_epochs(self, value = NO_INIT)
     struct fann * self;
-    float value
+    double value
   CODE:
     if (items > 1) {
         fann_set_cascade_output_stagnation_epochs(self, value);
@@ -330,10 +330,10 @@ accessor_cascade_output_stagnation_epochs(self, value = NO_INIT)
 
 MODULE = AI::FANN    PACKAGE = AI::FANN    PREFIX = accessor_
 
-float
+double
 accessor_cascade_candidate_change_fraction(self, value = NO_INIT)
     struct fann * self;
-    float value
+    double value
   CODE:
     if (items > 1) {
         fann_set_cascade_candidate_change_fraction(self, value);
