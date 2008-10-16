@@ -1,6 +1,15 @@
 Revision history for Perl extension AI::FANN.
 
+0.09 Oct 16, 2008
+    - AI::FANN::TrainData->new_from_file was nos working (bug reported
+      by Renata Camargo)
+    - constructors were not reporting errors via exceptions as
+      documented
+    - compiler warnings cleaned
+
 0.08 Jul 5, 2007
+    - use doubles instead of floats on accessors
+    - MSE is a float (bug and patch by Alex Lang)
     - add support for FANN_SIN_SYMMETRIC, FANN_COS_SYMMETRIC,
       FANN_SIN and FANN_COS constants.
 

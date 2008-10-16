@@ -22,7 +22,7 @@ static SV *
 _obj2sv(pTHX_ void *ptr, SV * klass, char * ctype) {
     if (ptr) {
 	SV *rv;
-	SV *sv = newSVpvf("%s(0x%x)", ctype, ptr);
+	SV *sv = newSVpvf("%s(0x%p)", ctype, ptr);
 	SV *mgobj = sv_2mortal(newSViv(PTR2IV(ptr)));
 	SvREADONLY_on(mgobj);
 	sv_magic(sv, mgobj, '~', ctype, 0);
@@ -46,17 +46,17 @@ static void *
 _sv2obj(pTHX_ SV* self, char * ctype, int required) {
     SV *sv = SvRV(self);
     if (sv) {
-		if (SvTYPE(sv) == SVt_PVMG) {
-			MAGIC *mg = mg_find(sv, '~');
-			if (mg) {
-				if (strcmp(ctype, mg->mg_ptr) == 0 && mg->mg_obj) {
-					return INT2PTR(void *, SvIV(mg->mg_obj));
-				}
-			}
-		}
+        if (SvTYPE(sv) == SVt_PVMG) {
+            MAGIC *mg = mg_find(sv, '~');
+            if (mg) {
+                if (strcmp(ctype, mg->mg_ptr) == 0 && mg->mg_obj) {
+                    return INT2PTR(void *, SvIV(mg->mg_obj));
+                }
+            }
+        }
     }
     if (required) {
-		Perl_croak(aTHX_ "object of class %s expected", ctype);
+        Perl_croak(aTHX_ "object of class %s expected", ctype);
     }
     return NULL;
 }
@@ -83,7 +83,7 @@ _srv2av(pTHX_ SV* sv, unsigned int len, char * const name) {
             }
             else {
                 Perl_croak(aTHX_ "wrong number of elements in %s array, %d found when %d were required",
-                           name, av_len(av)+1, len);
+                           name, (unsigned int)(av_len(av)+1), len);
             }
         }
     }
@@ -114,6 +114,9 @@ _check_error(pTHX_ struct fann_error *self) {
             fann_get_errstr(self);
             Perl_croak(aTHX_ Nullch);
         }
+    }
+    else {
+        Perl_croak(aTHX_ "Constructor failed");
     }
 }
 
@@ -446,6 +449,8 @@ fann_train_data_new_from_file(klass, filename)
     const char *filename;
   CODE:
     RETVAL = fann_train_data_create_from_file(filename);
+  OUTPUT:
+    RETVAL
   CLEANUP:
     _check_error(aTHX_ (struct fann_error *)RETVAL);
 

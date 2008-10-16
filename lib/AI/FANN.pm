@@ -1,6 +1,6 @@
 package AI::FANN;
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 use strict;
 use warnings;
@@ -621,7 +621,8 @@ FANN homepage at L<http://leenissen.dk/fann/index.php>.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2006 by Salvador FandiE<ntilde>o (sfandino@yahoo.com).
+Copyright (C) 2006-2008 by Salvador FandiE<ntilde>o
+(sfandino@yahoo.com).
 
 This Perl module is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself, either Perl version
