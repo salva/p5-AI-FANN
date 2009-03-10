@@ -1,8 +1,12 @@
 
 use ExtUtils::MakeMaker;
 
-my $fann_lib="";
-my $fan_inc="";
+use strict;
+use warnings;
+
+my $fann_lib = '';
+my $fann_inc = '';
+my $prefix;
 
 @ARGV = map {
     if (/^FANN_LIB=(.*)/) {
@@ -14,10 +18,15 @@ my $fan_inc="";
         ()
     }
     else {
-        $_
+	$prefix = $1 if /^PREFIX=(.*)/;
+	$_
     }
 } @ARGV;
 
+if (defined $prefix) {
+    $fann_lib = "-L$prefix/lib " unless length $fann_lib;
+    $fann_inc = "-I$prefix/include " unless length $fann_inc;
+}
 
 WriteMakefile( NAME => 'AI::FANN',
                VERSION_FROM => 'lib/AI/FANN.pm',

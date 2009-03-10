@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                AI-FANN
-version:             0.09
+version:             0.10
 abstract:            Perl wrapper for the Fast Artificial Neural Network library
 license:             ~
 author:              
