@@ -7,12 +7,9 @@ use AI::FANN qw(:all);
 use File::Temp;
 
 BEGIN {
-    eval "use Test::LeakTrace";
-    if ($@) {
-        plan skip_all => "Test::LeakTrace is needed";
-    }
+    eval "use Test::LeakTrace; 1"
+        or skip_all => "Test::LeakTrace is needed";
 }
-
 
 my $TempFile = File::Temp->new(TEMPLATE => "ai-fann-xor-test-XXXX", SUFFIX => ".ann", UNLINK => 1);
 
@@ -24,9 +21,9 @@ my $TempFile = File::Temp->new(TEMPLATE => "ai-fann-xor-test-XXXX", SUFFIX => ".
 
     # create the training data for a XOR operator:
     my $xor_train = AI::FANN::TrainData->new( [-1, -1], [-1],
-                                            [-1, 1], [1],
-                                            [1, -1], [1],
-                                            [1, 1], [-1] );
+                                              [-1, 1], [1],
+                                              [1, -1], [1],
+                                              [1, 1], [-1] );
 
     no_leaks_ok { $ann->train_on_data($xor_train, 500000, 1000, 0.001) } "train_on_data";
 
