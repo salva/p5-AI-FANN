@@ -50,25 +50,27 @@ sub _ensure_user_data {
     }
 }
 
-sub set_user_data {
-    my ($self, $data) = @_;
-    my $av = _ensure_user_data($self);
-    $av->[1] = $data;
-    ()
-}
-
-sub get_user_data {
+sub user_data {
     my $self = shift;
+    if (@_) {
+        my $data = shift;
+        my $av = _ensure_user_data($self);
+        $av->[1] = $data;
+    }
     my $av = _get_user_data($self);
     ($av ? $av->[1] : undef);
 }
 
-sub set_callback {
-    my ($self, $callback) = @_;
-    my $av = _ensure_user_data($self);
-    $av->[2] = $callback;
-    _enable_callback($self, ($callback ? 1 : 0));
-    ()
+sub callback {
+    my $self = shift;
+    if (@_) {
+        my $callback = shift;
+        my $av = _ensure_user_data($self);
+        $av->[2] = $callback;
+        _enable_callback($self, ($callback ? 1 : 0));
+    }
+    my $av = _get_user_data($self);
+    ($av ? $av->[2] : undef);
 }
 
 
@@ -568,13 +570,11 @@ return the number of neurons on layer C<$layer_index>.
 
 return a list with the number of neurons on every layer
 
-=item $ann->set_callback($callback)
+=item $ann->callback($callback)
 
-Sets the callback for use during training. If this is not set, the
-default callback function simply prints out some status
-information. Here's an example of a callback:
+Gets or sets the callback to use during training. For instance:
 
-  $callback = sub {
+  $cb = sub {
       my ($fann, $unused2,
           $max_epochs, $epochs_between_reports,
           $desired_error, $epochs, $user_data) = @_;
@@ -582,21 +582,27 @@ information. Here's an example of a callback:
       return 1;
   }
 
-The callback is called in scalar context and the training terminates
-when its return value is false.
+  $ann->callback($cb);
+  $ann->train($input, $desired_output);
+
+The callback is called in scalar context. Returning a false value
+makes the training stop.
 
 Note that the second argument is currently unused (C<undef>). Future
-versions of the module may be changed to pass the AI::FANN::TrainData
-object there.
+versions of the module may be changed that to pass the
+AI::FANN::TrainData object there.
 
 The last argument to the callback is the custom user data that may be
 set calling C<set_user_data> as explained below.
 
-=item $ann->set_user_data($user_data)
+The default callback function simply prints out some status
+information.
 
-=item $user_data = $ann->get_user_data
+=item $ann->user_data($user_data)
 
-Sets/gets the object user data that can be used for custom purposes.
+=item $user_data = $ann->user_data
+
+Sets/gets the object user data which can be used for custom purposes.
 
 =back
 

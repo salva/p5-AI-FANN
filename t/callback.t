@@ -46,7 +46,7 @@ my @data = ([-1, -1], [-1],
         return 1;
     };
 
-    $ann->set_callback($rc_callback);
+    $ann->callback($rc_callback);
 
     is($num_called, 0, "Callback still hasn't been called");
     $ann->train_on_data($xor_train, 500000, 1000, $master_desired_error);
@@ -56,7 +56,7 @@ my @data = ([-1, -1], [-1],
     $master_desired_error = 0.001;
     $master_data = "foo";
     $num_called = 0;
-    $ann->set_user_data($master_data);
+    $ann->user_data($master_data);
     $ann->train_on_data($xor_train, 500000, 1000, $master_desired_error);
     cmp_ok($num_called, '>=', 1, "Callback called at least once");
 }
@@ -77,7 +77,7 @@ my @data = ([-1, -1], [-1],
         return undef;
     };
 
-    $ann->set_callback($rc_callback);
+    $ann->callback($rc_callback);
 
     is($num_called, 0, "Callback still hasn't been called");
 
