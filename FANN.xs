@@ -169,12 +169,92 @@ _enum2sv(pTHX_ unsigned int value, char const * const * const names, unsigned in
 #define fann_train_data_num_output fann_num_output_train_data
 #define fann_train_data_save fann_save_train
 
-MODULE = AI::FANN		PACKAGE = AI::FANN		PREFIX = fann_
+static AV *
+get_user_data_av(pTHX_ struct fann *ann) {
+    SV *user_data = (SV *)fann_get_user_data(ann);
+    if (user_data && SvROK(user_data)) {
+        AV *av = (AV*)SvRV(user_data);
+        if (av && (SvTYPE((SV*)av) == SVt_PVAV))
+            return av;
+    }
+    Perl_croak(aTHX_ "Internal error: unable to retrieve user_data AV from fann structure");
+    return NULL;
+}
 
+static SV *
+av_fetch_or_croak(pTHX_ AV *av, IV ix) {
+    SV **svp = av_fetch(av, ix, 0);
+    if (!svp)
+        Perl_croak(aTHX_ "Internal error: av_fetch failed");
+    return *svp;
+}
+
+int FANN_API
+call_perl_callback(struct fann *ann, struct fann_train_data *train,
+                   unsigned int max_epochs, unsigned int epochs_between_reports,
+                   float desired_error, unsigned int epochs) {
+    dTHX;
+    int count, rc;
+    SV *rc_sv;
+    AV *av = get_user_data_av(aTHX_ ann);
+    SV *self = sv_mortalcopy(av_fetch_or_croak(aTHX_ av, 0));
+    SV *data = sv_mortalcopy(av_fetch_or_croak(aTHX_ av, 1));
+    SV *callback = av_fetch_or_croak(aTHX_ av, 2);
+    dSP;
+    ENTER;
+    SAVETMPS;
+    EXTEND(SP, 7);
+    PUSHMARK(SP);
+    PUSHs(self);
+    PUSHs(&PL_sv_undef);
+    mPUSHi(max_epochs);
+    mPUSHi(epochs_between_reports);
+    mPUSHn(desired_error);
+    mPUSHi(epochs);
+    PUSHs(data);
+    PUTBACK;
+    count = call_sv(callback, G_SCALAR);
+    SPAGAIN;
+    rc_sv = POPs;
+    rc = (SvOK(rc_sv) ? 1 : -1);
+    PUTBACK;
+    FREETMPS;
+    LEAVE;
+    return rc;
+}
+
+MODULE = AI::FANN		PACKAGE = AI::FANN		PREFIX = fann
 PROTOTYPES: DISABLE
 
 BOOT:
     fann_set_error_log(0, 0);
+
+void
+fann_set_user_data(self, data = &PL_sv_undef)
+    struct fann * self
+    SV *data
+  PREINIT:
+    SV *old;
+  CODE:
+    if (old = fann_get_user_data(self))
+        sv_2mortal(old);
+    fann_set_user_data(self, newSVsv(data));
+
+SV *
+fann_get_user_data(self)
+    struct fann * self;
+  CODE:
+    RETVAL = fann_get_user_data(self);
+    RETVAL = (RETVAL ? newSVsv(RETVAL) : &PL_sv_undef);
+  OUTPUT:
+    RETVAL
+
+void
+fann_enable_callback(self, yes)
+    struct fann * self;
+    int yes;
+  CODE:
+    fann_set_callback(self, (yes ? &call_perl_callback : NULL));
 
 void
 _constants()
@@ -187,9 +267,12 @@ _constants()
         SvUV_set(sv, my_constant_values[i]);
         SvIOK_on(sv);
         SvIsUV_on(sv);
-		XPUSHs(sv);
-	}
+        XPUSHs(sv);
+    }
     XSRETURN(i);
+
+
+MODULE = AI::FANN		PACKAGE = AI::FANN		PREFIX = fann_
 
 struct fann *
 fann_new_standard(klass, ...)
@@ -266,7 +349,13 @@ fann_new_from_file(klass, filename)
 void
 fann_DESTROY(self)
     struct fann * self;
+  PREINIT:
+    SV *user_data;
   CODE:
+    if (user_data = fann_get_user_data(self)) {
+        fann_set_user_data(self, NULL);
+        sv_2mortal((SV*)user_data);
+    }
     fann_destroy(self);
     sv_unmagic(SvRV(ST(0)), '~');
 

@@ -36,6 +36,42 @@ sub num_neurons {
     }
 }
 
+# User data is lazily set.
+# An AV is used to store [self, user_data, callback]
+
+sub _ensure_user_data {
+    my $self = shift;
+    _get_user_data($self) // do {
+        my @av = ($self, undef, undef);
+        require Scalar::Util;
+        Scalar::Util::weaken($av[0]);
+        _set_user_data($self, \@av);
+        \@av;
+    }
+}
+
+sub set_user_data {
+    my ($self, $data) = @_;
+    my $av = _ensure_user_data($self);
+    $av->[1] = $data;
+    ()
+}
+
+sub get_user_data {
+    my $self = shift;
+    my $av = _get_user_data($self);
+    ($av ? $av->[1] : undef);
+}
+
+sub set_callback {
+    my ($self, $callback) = @_;
+    my $av = _ensure_user_data($self);
+    $av->[2] = $callback;
+    _enable_callback($self, ($callback ? 1 : 0));
+    ()
+}
+
+
 1;
 __END__
 
@@ -532,11 +568,41 @@ return the number of neurons on layer C<$layer_index>.
 
 return a list with the number of neurons on every layer
 
+=item $ann->set_callback($callback)
+
+Sets the callback for use during training. If this is not set, the
+default callback function simply prints out some status
+information. Here's an example of a callback:
+
+  $callback = sub {
+      my ($fann, $unused2,
+          $max_epochs, $epochs_between_reports,
+          $desired_error, $epochs, $user_data) = @_;
+      printf("Epochs: %d\n", $epochs);
+      return 1;
+  }
+
+The callback is called in scalar context and the training terminates
+when its return value is false.
+
+Note that the second argument is currently unused (C<undef>). Future
+versions of the module may be changed to pass the AI::FANN::TrainData
+object there.
+
+The last argument to the callback is the custom user data that may be
+set calling C<set_user_data> as explained below.
+
+=item $ann->set_user_data($user_data)
+
+=item $user_data = $ann->get_user_data
+
+Sets/gets the object user data that can be used for custom purposes.
+
 =back
 
 =head2 AI::FANN::TrainData
 
-Wraps C C<struct fann_train_data> and provides the following method:
+Wraps C C<struct fann_train_data> providing the following methods:
 
 =over 4
 
@@ -621,7 +687,7 @@ FANN homepage at L<http://leenissen.dk/fann/index.php>.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2006-2008 by Salvador FandiE<ntilde>o
+Copyright (C) 2006-2008, 2015 by Salvador FandiE<ntilde>o
 (sfandino@yahoo.com).
 
 This Perl module is free software; you can redistribute it and/or
@@ -630,7 +696,7 @@ modify it under the same terms as Perl itself, either Perl version
 available.
 
 The Fast Artificial Neural Network Library (FANN)
-Copyright (C) 2003-2006 Steffen Nissen (lukesky@diku.dk) and others.
+Copyright (C) 2003-2015 Steffen Nissen (lukesky@diku.dk) and others.
 
 Distributed under the GNU Lesser General Public License.
 
