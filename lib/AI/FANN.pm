@@ -202,7 +202,7 @@ Boolean methods return true on success and undef on failure.
 
 =item *
 
-Any error reported from the C side is automaticaly converter to a Perl
+Any error reported from the C side is automatically converter to a Perl
 exception. No manual error checking is required after calling FANN
 functions.
 
