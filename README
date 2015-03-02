@@ -32,7 +32,7 @@ not installed on some standard locations. For instance:
 
 COPYRIGHT AND LICENCE
 
-Copyright (C) 2006 by Salvador Fandino (sfandino@yahoo.com).
+Copyright (C) 2006-2008, 2015 by Salvador Fandino (sfandino@yahoo.com).
 
 This Perl module is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself, either Perl version
@@ -40,7 +40,7 @@ modify it under the same terms as Perl itself, either Perl version
 available.
 
 The Fast Artificial Neural Network Library (FANN)
-Copyright (C) 2003-2006 Steffen Nissen (lukesky@diku.dk) and others.
+Copyright (C) 2003-20015 Steffen Nissen (lukesky@diku.dk) and others.
 
 Distributed under the GNU Lesser General Public License.
 
