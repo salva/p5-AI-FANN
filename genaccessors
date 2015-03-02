@@ -154,7 +154,7 @@ hidden_activation_steepness, fann_type, , fann_set_activation_steepness_hidden
 output_activation_steepness, fann_type, , fann_set_activation_steepness_output
 layer_num_neurons, unsigned int, fann_get_num_neurons, , layer
 num_layers, unsigned int, fann_get_num_layers
-
+network_type, enum fann_nettype_enum, fann_get_network_type
 # neuron, struct fann_neuron *, fann_get_neuron, , layer, neuron_index
 
 TrainData::num_inputs, unsigned int, fann_train_data_num_input

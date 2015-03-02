@@ -593,6 +593,19 @@ accessor_num_layers(self)
     _check_error(aTHX_ (struct fann_error *)self);
 
 
+MODULE = AI::FANN    PACKAGE = AI::FANN    PREFIX = accessor_
+
+enum fann_nettype_enum
+accessor_network_type(self)
+	struct fann * self;
+  CODE:
+    RETVAL = fann_get_network_type(self);
+  OUTPUT:
+    RETVAL
+  CLEANUP:
+    _check_error(aTHX_ (struct fann_error *)self);
+
+
 MODULE = AI::FANN    PACKAGE = AI::FANN::TrainData    PREFIX = accessor_
 
 unsigned int

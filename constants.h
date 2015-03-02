@@ -25,6 +25,8 @@ static char * const my_constant_names[] = {
     "FANN_ERRORFUNC_TANH",
     "FANN_STOPFUNC_MSE",
     "FANN_STOPFUNC_BIT",
+    "FANN_NETTYPE_LAYER",
+    "FANN_NETTYPE_SHORTCUT",
     0,
 };
 static const unsigned int my_constant_values[] = {
@@ -54,4 +56,6 @@ static const unsigned int my_constant_values[] = {
     FANN_ERRORFUNC_TANH,
     FANN_STOPFUNC_MSE,
     FANN_STOPFUNC_BIT,
+    FANN_NETTYPE_LAYER,
+    FANN_NETTYPE_SHORTCUT,
 };

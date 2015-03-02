@@ -152,7 +152,7 @@ _enum2sv(pTHX_ unsigned int value, char const * const * const names, unsigned in
 #define _fann_activationfunc_enum2sv(sv) _enum2sv(aTHX_ sv, FANN_ACTIVATIONFUNC_NAMES, FANN_LINEAR_PIECE_SYMMETRIC, "fann_activationfunc_enum")
 #define _fann_errorfunc_enum2sv(sv) _enum2sv(aTHX_ sv, FANN_ERRORFUNC_NAMES, FANN_ERRORFUNC_TANH, "fann_errorfunc_enum")
 #define _fann_stopfunc_enum2sv(sv) _enum2sv(aTHX_ sv, FANN_STOPFUNC_NAMES, FANN_STOPFUNC_BIT, "fann_stopfunc_enum")
-
+#define _fann_nettype_enum2sv(sv) _enum2sv(aTHX_ sv, FANN_NETTYPE_NAMES, FANN_NETTYPE_SHORTCUT, "fann_nettype_enum")
 
 
 /* normalized names for train_data methods */

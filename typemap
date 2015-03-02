@@ -17,6 +17,9 @@ enum fann_activationfunc_enum   T_FANN_ACTIVATIONFUNC_ENUM
 enum fann_errorfunc_enum    T_FANN_ERRORFUNC_ENUM
 enum fann_stopfunc_enum T_STOPFUNC_ENUM
 
+enum fann_nettype_enum T_FANN_NETTYPE_ENUM
+
+
 INPUT
 
 T_PTROBJ_MAGIC
@@ -60,3 +63,6 @@ T_FANN_ERRORFUNC_ENUM
 
 T_STOPFUNC_ENUM
     $arg = _fann_stopfunc_enum2sv($var);
+
+T_FANN_NETTYPE_ENUM
+    $arg = _fann_nettype_enum2sv($var);
