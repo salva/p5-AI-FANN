@@ -6,7 +6,7 @@ accessor_training_algorithm(self, value = NO_INIT)
     struct fann * self;
     enum fann_train_enum value
   CODE:
-    if (items > 1) {
+    if (items >= 2) {
         fann_set_training_algorithm(self, value);
     }
     RETVAL = fann_get_training_algorithm(self);
@@ -23,7 +23,7 @@ accessor_train_error_function(self, value = NO_INIT)
     struct fann * self;
     enum fann_errorfunc_enum value
   CODE:
-    if (items > 1) {
+    if (items >= 2) {
         fann_set_train_error_function(self, value);
     }
     RETVAL = fann_get_train_error_function(self);
@@ -40,7 +40,7 @@ accessor_train_stop_function(self, value = NO_INIT)
     struct fann * self;
     enum fann_stopfunc_enum value
   CODE:
-    if (items > 1) {
+    if (items >= 2) {
         fann_set_train_stop_function(self, value);
     }
     RETVAL = fann_get_train_stop_function(self);
@@ -57,7 +57,7 @@ accessor_learning_rate(self, value = NO_INIT)
     struct fann * self;
     double value
   CODE:
-    if (items > 1) {
+    if (items >= 2) {
         fann_set_learning_rate(self, value);
     }
     RETVAL = fann_get_learning_rate(self);
@@ -74,7 +74,7 @@ accessor_learning_momentum(self, value = NO_INIT)
     struct fann * self;
     double value
   CODE:
-    if (items > 1) {
+    if (items >= 2) {
         fann_set_learning_momentum(self, value);
     }
     RETVAL = fann_get_learning_momentum(self);
@@ -91,7 +91,7 @@ accessor_bit_fail_limit(self, value = NO_INIT)
     struct fann * self;
     fann_type value
   CODE:
-    if (items > 1) {
+    if (items >= 2) {
         fann_set_bit_fail_limit(self, value);
     }
     RETVAL = fann_get_bit_fail_limit(self);
@@ -108,7 +108,7 @@ accessor_quickprop_decay(self, value = NO_INIT)
     struct fann * self;
     double value
   CODE:
-    if (items > 1) {
+    if (items >= 2) {
         fann_set_quickprop_decay(self, value);
     }
     RETVAL = fann_get_quickprop_decay(self);
@@ -125,7 +125,7 @@ accessor_quickprop_mu(self, value = NO_INIT)
     struct fann * self;
     double value
   CODE:
-    if (items > 1) {
+    if (items >= 2) {
         fann_set_quickprop_mu(self, value);
     }
     RETVAL = fann_get_quickprop_mu(self);
@@ -142,7 +142,7 @@ accessor_rprop_increase_factor(self, value = NO_INIT)
     struct fann * self;
     double value
   CODE:
-    if (items > 1) {
+    if (items >= 2) {
         fann_set_rprop_increase_factor(self, value);
     }
     RETVAL = fann_get_rprop_increase_factor(self);
@@ -159,7 +159,7 @@ accessor_rprop_decrease_factor(self, value = NO_INIT)
     struct fann * self;
     double value
   CODE:
-    if (items > 1) {
+    if (items >= 2) {
         fann_set_rprop_decrease_factor(self, value);
     }
     RETVAL = fann_get_rprop_decrease_factor(self);
@@ -176,7 +176,7 @@ accessor_rprop_delta_min(self, value = NO_INIT)
     struct fann * self;
     double value
   CODE:
-    if (items > 1) {
+    if (items >= 2) {
         fann_set_rprop_delta_min(self, value);
     }
     RETVAL = fann_get_rprop_delta_min(self);
@@ -193,7 +193,7 @@ accessor_rprop_delta_max(self, value = NO_INIT)
     struct fann * self;
     double value
   CODE:
-    if (items > 1) {
+    if (items >= 2) {
         fann_set_rprop_delta_max(self, value);
     }
     RETVAL = fann_get_rprop_delta_max(self);
@@ -301,7 +301,7 @@ accessor_cascade_output_change_fraction(self, value = NO_INIT)
     struct fann * self;
     double value
   CODE:
-    if (items > 1) {
+    if (items >= 2) {
         fann_set_cascade_output_change_fraction(self, value);
     }
     RETVAL = fann_get_cascade_output_change_fraction(self);
@@ -318,7 +318,7 @@ accessor_cascade_output_stagnation_epochs(self, value = NO_INIT)
     struct fann * self;
     double value
   CODE:
-    if (items > 1) {
+    if (items >= 2) {
         fann_set_cascade_output_stagnation_epochs(self, value);
     }
     RETVAL = fann_get_cascade_output_stagnation_epochs(self);
@@ -335,7 +335,7 @@ accessor_cascade_candidate_change_fraction(self, value = NO_INIT)
     struct fann * self;
     double value
   CODE:
-    if (items > 1) {
+    if (items >= 2) {
         fann_set_cascade_candidate_change_fraction(self, value);
     }
     RETVAL = fann_get_cascade_candidate_change_fraction(self);
@@ -352,7 +352,7 @@ accessor_cascade_candidate_stagnation_epochs(self, value = NO_INIT)
     struct fann * self;
     unsigned int value
   CODE:
-    if (items > 1) {
+    if (items >= 2) {
         fann_set_cascade_candidate_stagnation_epochs(self, value);
     }
     RETVAL = fann_get_cascade_candidate_stagnation_epochs(self);
@@ -369,7 +369,7 @@ accessor_cascade_weight_multiplier(self, value = NO_INIT)
     struct fann * self;
     fann_type value
   CODE:
-    if (items > 1) {
+    if (items >= 2) {
         fann_set_cascade_weight_multiplier(self, value);
     }
     RETVAL = fann_get_cascade_weight_multiplier(self);
@@ -386,7 +386,7 @@ accessor_cascade_candidate_limit(self, value = NO_INIT)
     struct fann * self;
     fann_type value
   CODE:
-    if (items > 1) {
+    if (items >= 2) {
         fann_set_cascade_candidate_limit(self, value);
     }
     RETVAL = fann_get_cascade_candidate_limit(self);
@@ -403,7 +403,7 @@ accessor_cascade_max_out_epochs(self, value = NO_INIT)
     struct fann * self;
     unsigned int value
   CODE:
-    if (items > 1) {
+    if (items >= 2) {
         fann_set_cascade_max_out_epochs(self, value);
     }
     RETVAL = fann_get_cascade_max_out_epochs(self);
@@ -420,7 +420,7 @@ accessor_cascade_max_cand_epochs(self, value = NO_INIT)
     struct fann * self;
     unsigned int value
   CODE:
-    if (items > 1) {
+    if (items >= 2) {
         fann_set_cascade_max_cand_epochs(self, value);
     }
     RETVAL = fann_get_cascade_max_cand_epochs(self);
@@ -450,7 +450,7 @@ accessor_cascade_num_candidate_groups(self, value = NO_INIT)
     struct fann * self;
     unsigned int value
   CODE:
-    if (items > 1) {
+    if (items >= 2) {
         fann_set_cascade_num_candidate_groups(self, value);
     }
     RETVAL = fann_get_cascade_num_candidate_groups(self);
@@ -469,7 +469,7 @@ accessor_neuron_activation_function(self, layer, neuron_index, value = NO_INIT)
     unsigned int neuron_index;
     enum fann_activationfunc_enum value
   CODE:
-    if (items > 3) {
+    if (items >= 4) {
         fann_set_activation_function(self, value, layer, neuron_index);
     }
     RETVAL = fann_get_activation_function(self, layer, neuron_index);
@@ -522,7 +522,7 @@ accessor_neuron_activation_steepness(self, layer, neuron, value = NO_INIT)
     unsigned int neuron;
     fann_type value
   CODE:
-    if (items > 3) {
+    if (items >= 4) {
         fann_set_activation_steepness(self, value, layer, neuron);
     }
     RETVAL = fann_get_activation_steepness(self, layer, neuron);

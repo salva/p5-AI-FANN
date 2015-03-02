@@ -22,6 +22,7 @@ sub accessor {
     my @ixs1 =  grep !/^value$/, @ixs;
 
     my $nixs = @ixs;
+    my $nixs2 = $nixs + 1;
 
     my $types = join("\n    ", "$struct self;", map "unsigned int $_;", @ixs1);
     my $args = join(', ', 'self', @ixs1);
@@ -59,7 +60,7 @@ accessor_$method($args, value = NO_INIT)
     $types
     $type value
   CODE:
-    if (items > $nixs) {
+    if (items >= $nixs2) {
         $setter;
     }
     RETVAL = $getter;
